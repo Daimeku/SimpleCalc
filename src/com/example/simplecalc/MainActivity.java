@@ -1,5 +1,9 @@
 package com.example.simplecalc;
 
+//import inputStack;
+//import cStack;
+//import inputStack;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -10,131 +14,142 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
-	public  void addit(View view) // add button==================================================
-	{
-		EditText num1= (EditText) findViewById(R.id.num1);			// making an editText object to match the xml editText
-		EditText num2= (EditText) findViewById(R.id.num2);
+	
+	 protected int priority(char c){
+		int p=0;
 		
-		String snum1= num1.getText().toString();			// getting the text from the editText fields
-		String snum2= num2.getText().toString();			// editText stores strings so they have to be parsed to ints
+		switch(c){
+		case '^': p=3;
+					break;
+		case '*': p=2;
+					break;
+		case '/': p=2;
+					break;
+		case '+': p=1;
+					break;
+		case '-': p=1;
+					break;
+		default: p=0;
+					break;
+		}
 		
-		int n1,n2,sum;			// integers to store the values from the edittext
-			if(snum1=="")			// if field is empty set n1 to 0
-				n1=0;
-			else
-				n1= Integer.parseInt(snum1); 	// parsing the string to an int
-		
-		n2= Integer.parseInt(snum2);
-		
-		sum= n1+n2;
-		String ans = Integer.toString(sum);		// setting the number to a string so it can be displayed by the textview
-		
-		TextView result= (TextView) findViewById(R.id.result);		// textView object to show answer
-		result.setTextSize(30);
-		result.setText(ans);										// setting the answer to the textview
-		
-		
-		
-		
+		return p;
 	}
 	
-	public void subit(View view){  // subtract button============================================
+	 protected String postFix(String inf){		// converting from infix string to postfix string and returning it
+		String postF="";
+		inputStack stak = new inputStack();
 		
-		EditText num1 = (EditText) findViewById(R.id.num1);
-		EditText num2= (EditText) findViewById(R.id.num2);
+		for(int i=0;i<inf.length();i++){	// iterating through the infix string and comparing each character
+			char c=inf.charAt(i);
+			int p;
+			
+			if( (c=='*') || (c=='/') || (c=='+') || (c=='-') || (c=='^') ){		// if the current character is an operator==============================
+				postF+=" ";
+				if(stak.getTop()==' '){  					// if the stack is empty
+					stak.push(c);
+					
+				}
+				else{										// if the stack isn't empty 
+					
+					while(priority(stak.getTop()) >= priority(c) && stak.getTop() != ' '){	// if the top of the stack is a higher priority than c
+						postF+= stak.pop();
+						}
+					stak.push(c);
+					
+				}
+			}
+			else{	// if the current character is an operand===============================================================================
+				postF+=c;
+				}
+		} // end for
 		
-		String snum1, snum2;
-		snum1 = num1.getText().toString();
-		snum2 = num2.getText().toString();
+		while( stak.getTop() !=' '){		// after loop has exited add operations to end of postF string
+			postF+=stak.pop();
+		}
 		
-		int n1, n2, diff;
 		
-		n1= Integer.parseInt(snum1);
-		n2= Integer.parseInt(snum2);
 		
-		diff= n1-n2;
 		
-		String ans= Integer.toString(diff);
+		return postF;
+	}
+	
+	protected  boolean isOp(String c){
+		boolean an=false;
 		
-		TextView result = (TextView) findViewById(R.id.result);
-		result.setTextSize(30);
-		result.setText(ans);
+		if( (c.equals("*")) || (c.equals("/")) || (c.equals("+")) || (c.equals("-")) || (c.equals("^")) ){
+			an=true;
+		}
+		
+		if( an==false)
+			System.out.println(" False");
+		else
+			System.out.println("TRUE");
+
+		
+		return an;
 	}
 	
 	
+	protected boolean isOp(char c){
+		boolean an=false;
+		
+		if( (c=='*') || (c=='/') || (c=='+') || (c=='-') || (c=='^') ){
+			an=true;
+		}
+		
+		if( an==false)
+			System.out.println(" False2");
+		else
+			System.out.println("TRUE2");
+		return an;
+	}
+
+protected  double calculate(String ss2, String ss1, String sop){		// accepts strings, does calculations and returns double
+	/*
+	String s1= new StringBuilder(ss2).reverse().toString();
+	String s2= new StringBuilder(ss1).reverse().toString();
+	*/
 	
+	String s1=ss2;
+	String s2=ss1;
+	double n2= Double.parseDouble(s2);
+	double n1= Double.parseDouble(s1);
+	char op= sop.charAt(0);
+	double ans=0;
 	
+	switch(op){
+	case'*': ans= n1 *n2;
+			break;
+	case '/': ans= n1/n2;
+			break;
+	case '-': ans= n1-n2;
+			break;
+	case'+': ans=n1+n2;
+			break;
+	case '^': ans= Math.pow(n1,n2);
+			break;
+	}
+	
+	System.out.println(" Ans: "+ans);
+	return ans;
+	
+}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		final TextView screen = (TextView) findViewById(R.id.screen);		// the textview for the screen
+		final TextView screen = (TextView) findViewById(R.id.screen);		// the textView for the screen
 		screen.setTextSize(30);
 		screen.setText("0");
 		
-		//Multiply button=======================================================================
-		Button multi = (Button) findViewById(R.id.multiply);
+		final inputStack ops= new inputStack();								// stack to store numbers and operations
 		
-		multi.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				EditText num1= (EditText) findViewById(R.id.num1);
-				EditText num2= (EditText) findViewById(R.id.num2);
-				
-				String snum1, snum2;
-				snum1= num1.getText().toString();
-				snum2= num2.getText().toString();
-				
-				int n1, n2, prod;
-				
-				n1= Integer.parseInt(snum1);
-				n2= Integer.parseInt(snum2);
-				
-				prod=n1 * n2;
-				
-				String ans = Integer.toString(prod);
-				
-				TextView result = (TextView) findViewById(R.id.result);
-				result.setTextSize(30);
-				result.setText(ans);
-				
-				// TODO Auto-generated method stub
-				
-			}
-		});
 		
-		// divide button=========================================================================
-		Button divi = (Button) findViewById(R.id.divide);
 		
-		divi.setOnClickListener(new View.OnClickListener() {
-			@Override 
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				EditText num1= (EditText) findViewById(R.id.num1);
-				EditText num2= (EditText) findViewById(R.id.num2);
-				
-				String snum1, snum2;
-				snum1= num1.getText().toString();
-				snum2= num2.getText().toString();
-				
-				int n1, n2, quo;
-				
-				n1= Integer.parseInt(snum1);
-				n2= Integer.parseInt(snum2);
-				
-				quo=n1/n2;
-				
-				String ans = Integer.toString(quo);
-				
-				TextView result = (TextView) findViewById(R.id.result);
-				result.setTextSize(30);
-				result.setText(ans);
-				
-			}
-		});
+		
 		
 		//===== ONE ===============================================================
 		Button one= (Button) findViewById(R.id.one);
@@ -153,7 +168,281 @@ public class MainActivity extends Activity {
 				
 				//here is  where the number would be added to the stack
 				
+				ops.push('1');
 				
+			}
+		});
+		
+		//========= TWO====================================================
+		Button two= (Button) findViewById(R.id.two);
+		
+		two.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				String inp,tex;
+				inp="2";
+				 tex= screen.getText().toString();
+				 tex= tex+inp;
+				 screen.setText(tex);
+				 
+				 // add to stack here
+				
+			}
+		});
+					//========= THREE====================================================
+		Button three= (Button) findViewById(R.id.three);
+		
+		
+		three.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				String inp, tex;
+				inp="3";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+			}
+		});
+						//========= four====================================================
+		Button four= (Button) findViewById(R.id.four);
+		
+		four.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				
+				String inp, tex;
+				inp="4";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+				
+			}
+		});
+		//==============================================FIVE================
+		Button five= (Button) findViewById(R.id.five);
+		
+		five.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String inp, tex;
+				inp="5";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+			}
+		});
+		//=============================================SIX=========================
+		Button six= (Button) findViewById(R.id.six);
+		
+		six.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String inp, tex;
+				inp="6";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+				
+			}
+		});
+		
+		//=========================================SEVEN==================
+		Button seven = (Button) findViewById(R.id.seven);
+		
+		seven.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String inp, tex;
+				inp="7";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+			}
+		});
+		
+		//========================================================EIGHT=======
+		Button eight =(Button) findViewById(R.id.eight);
+		
+		eight.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String inp, tex;
+				inp="8";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+			}
+		});
+		//=======================================NINE======================
+		Button nine = (Button) findViewById(R.id.nine);
+		
+		nine.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+				
+				String inp, tex;
+				inp="9";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+			}
+		});
+		//==================================================ZERO========================
+		Button zero = (Button) findViewById(R.id.zero);
+		
+		zero.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String inp, tex;
+				inp="0";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+			}
+		});
+		
+		//NEW ADD BUTTON=======================================================================
+				Button add = (Button) findViewById(R.id.add);
+				
+				add.setOnClickListener(new View.OnClickListener() {
+					@Override 
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						String inp, tex;
+						inp="+";
+						tex= screen.getText().toString();
+						tex= tex+inp;
+						screen.setText(tex);
+						
+					}
+				});
+				
+				
+		
+		//=================================================EQUALS============
+		Button eq= (Button) findViewById(R.id.equal);
+		
+		eq.setOnClickListener(new View.OnClickListener() { 			// to calculate------ work out logic
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				cStack stakk= new cStack(); 		// stack to track operations 
+				double ans=0;
+				String n="";
+			
+				//	String inf="1+211-24/6";
+				
+				String inf=screen.getText().toString();
+				String postF= postFix(inf);						// getting postFix string
+				
+				for(int i=postF.length()-1;i>=0;i--){
+					char c=postF.charAt(i);
+				//	System.out.println("n: "+n+"    c: "+c+"    top: "+stakk.getTop());
+					
+					if( (c!=' ') && (c!='*') && (c!='/') && (c!='^') && (c!='-') && (c!='+') /*|| (i==0)*/ ){		//if current char isnt a special character keep scanning to make number
+						n+=c;
+					}
+					else{
+						
+						
+						if(n.equals("") || n.equals(" ")){			// if there's nothing in n
+							
+							if(isOp(c)){	// check if c is an operator and add it to stack
+								
+								String d="";
+								d+=c;
+								stakk.push(d);
+							
+							}
+						}
+						
+						else{			// if n has a value
+												
+							if(isOp(stakk.getTop())){		// if stack top isnt a number
+									
+								stakk.push(n);		
+							}
+							else if(!isOp(stakk.getTop())){		// if stack top is a number
+								
+								String n2=stakk.pop();				// pop twice from stack and calculate using the 2 numbers and the operation
+								String op=stakk.pop();
+							
+								
+								String s1= new StringBuilder(n).reverse().toString();
+								String s2= new StringBuilder(n2).reverse().toString();
+								
+								double tem= calculate(s1,s2,op);
+								String p= String.valueOf(tem);
+								stakk.push(p);
+								
+							
+							}
+							
+							if(c!=' '){
+							String cc="";		// add operation to the stack after processing
+							cc+=c;
+							stakk.push(cc);
+							}
+							n="";
+						}						
+						
+					}
+				}
+				String s1= new StringBuilder(n).reverse().toString();
+				n=s1;
+			
+				
+				while( stakk.getCount() >1){
+					
+					if(n.equals("") || n.equals(" ")){
+						String n1=stakk.pop();
+						String n2=stakk.pop();				// pop twice from stack and calculate using the 2 numbers and the operation
+						String op=stakk.pop();
+					//	 n1= new StringBuilder(n).reverse().toString();
+					//	 n2= new StringBuilder(n2).reverse().toString();
+						
+						
+						double tem= calculate(n1,n2,op);
+						String p= String.valueOf(tem);
+						stakk.push(p);
+						
+					}
+					else{
+						String n2=stakk.pop();				// pop twice from stack and calculate using the 2 numbers and the operation
+						String op=stakk.pop();
+						;
+						
+						 n2= new StringBuilder(n2).reverse().toString();
+						double tem= calculate(n,n2,op);
+						String p= String.valueOf(tem);
+						stakk.push(p);
+						n="";
+					}
+					
+				}
+				String an=stakk.pop();
+				
+				ans=Double.parseDouble(an);
+				
+				screen.setText(an);
+				//return ans;
 			}
 		});
 		

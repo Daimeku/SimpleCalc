@@ -24,16 +24,25 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080009;
-        public static final int add=0x7f080002;
-        public static final int divide=0x7f080005;
-        public static final int multiply=0x7f080004;
-        public static final int num1=0x7f080000;
-        public static final int num2=0x7f080001;
-        public static final int one=0x7f080007;
-        public static final int result=0x7f080006;
-        public static final int screen=0x7f080008;
-        public static final int subtract=0x7f080003;
+        public static final int action_settings=0x7f080012;
+        public static final int add=0x7f08000d;
+        public static final int clear=0x7f080003;
+        public static final int divide=0x7f080011;
+        public static final int eight=0x7f08000a;
+        public static final int equal=0x7f08000f;
+        public static final int exp=0x7f080010;
+        public static final int five=0x7f080006;
+        public static final int four=0x7f080005;
+        public static final int multiply=0x7f08000e;
+        public static final int nine=0x7f080009;
+        public static final int one=0x7f080001;
+        public static final int screen=0x7f080002;
+        public static final int seven=0x7f080007;
+        public static final int six=0x7f080008;
+        public static final int subtract=0x7f08000c;
+        public static final int three=0x7f080004;
+        public static final int two=0x7f080000;
+        public static final int zero=0x7f08000b;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
