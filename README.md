@@ -4,6 +4,6 @@ SimpleCalc
 A simple android calculator
 
 
-- Currently Working on-
+CURRENTLY WORKING ON
 - input validation checks
 - adding new operations (ongoing)
