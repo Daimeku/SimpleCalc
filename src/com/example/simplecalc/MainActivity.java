@@ -90,6 +90,31 @@ public class MainActivity extends Activity {
 		return an;
 	}
 	
+	protected boolean checkString(String inp){					// checking the format of the string before calculation
+		boolean check=false;
+		int oc=0;
+		if(inp.equals("")){
+			check=false;
+			return check;
+		}
+		
+		for(int i=0;i<inp.length();i++){
+			
+			if(isOp(inp.charAt(i))){
+				oc++;
+			}
+			
+		}
+		
+		if( (!isOp(inp.charAt(inp.length()-1))) && (oc>0) ){
+			check=true;
+		}
+		
+		
+			
+		
+		return check;
+	}
 	
 	protected boolean isOp(char c){
 		boolean an=false;
@@ -317,6 +342,42 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 			}
 		});
 		
+		//==========================DECIMAL=======================
+		
+		Button deci= (Button) findViewById(R.id.decimal);
+		
+		deci.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				String inp, tex;
+				inp=".";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+				
+			}
+		});
+		
+		//========================DELETE========================
+		Button del= (Button) findViewById(R.id.delete);
+		
+		del.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				String tex=screen.getText().toString();
+				String ntex="";
+				for(int i=0;i<tex.length()-1;i++){
+					ntex+= tex.charAt(i);
+				}
+				screen.setText(ntex);
+				
+			}
+		});
+		
 		//NEW ADD BUTTON=======================================================================
 				Button add = (Button) findViewById(R.id.add);
 				
@@ -333,8 +394,83 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 					}
 				});
 				
+				Button clear= (Button) findViewById(R.id.clear);
 				
+				clear.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						String inp, tex;
+						inp="+";
+						tex="";
+						
+						screen.setText(tex);
+					}
+				});
+				//====================================EXPONENENT========================
+				Button expo= (Button) findViewById(R.id.exp);
+				
+				expo.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						String inp, tex;
+						inp="^";
+						tex= screen.getText().toString();
+						tex= tex+inp;
+						screen.setText(tex);
+					}
+				});
+				
+				//=================DIVIDE==============================================
+				Button divide= (Button) findViewById(R.id.divide);
+				
+				divide.setOnClickListener(new View.OnClickListener(
+						) {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						String inp, tex;
+						inp="/";
+						tex= screen.getText().toString();
+						tex= tex+inp;
+						screen.setText(tex);
+					}
+				});
+				
+				//==================================MULTIPLY=========================
+				Button multiply = (Button) findViewById(R.id.multiply);
+				
+				multiply.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						String inp, tex;
+						inp="*";
+						tex= screen.getText().toString();
+						tex= tex+inp;
+						screen.setText(tex);
+					}
+				});
+		//===================================================SUBTRACT BUTTON===============================
+		Button subtract= (Button) findViewById(R.id.subtract);
 		
+		subtract.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String inp, tex;
+				inp="-";
+				tex= screen.getText().toString();
+				tex= tex+inp;
+				screen.setText(tex);
+			}
+		});
 		//=================================================EQUALS============
 		Button eq= (Button) findViewById(R.id.equal);
 		
@@ -350,6 +486,8 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 				//	String inf="1+211-24/6";
 				
 				String inf=screen.getText().toString();
+			if(checkString(inf)){	
+				
 				String postF= postFix(inf);						// getting postFix string
 				
 				for(int i=postF.length()-1;i>=0;i--){
@@ -443,10 +581,15 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 				
 				screen.setText(an);
 				//return ans;
+			
 			}
-		});
+			else{
+				screen.setText(inf);
+			}
+			
+			}});
 		
-		
+			
 		
 	}
 

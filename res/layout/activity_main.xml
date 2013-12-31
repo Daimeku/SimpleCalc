@@ -147,17 +147,6 @@
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/equal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/zero"
-            android:layout_alignBottom="@+id/zero"
-            android:layout_alignRight="@+id/nine"
-            android:layout_marginRight="18dp"
-            android:background="#6C8CD5"
-            android:text=" = " />
-
-        <Button
             android:id="@+id/exp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -196,5 +185,35 @@
             android:layout_below="@+id/divide"
             android:background="#6C8CD5"
             android:text="cls" />
+        
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/exp"
+            android:layout_alignBottom="@+id/exp"
+            android:layout_alignLeft="@+id/add"
+            android:background="#6C8CD5"
+            android:text="del" />
+
+        <Button
+            android:id="@+id/equal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/zero"
+            android:layout_alignBottom="@+id/zero"
+            android:layout_alignLeft="@+id/exp"
+            android:background="#6C8CD5"
+            android:text="=" />
+
+        <Button
+            android:id="@+id/decimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/equal"
+            android:layout_toLeftOf="@+id/nine"
+            android:background="#6C8CD5"
+            android:text="."
+            android:textSize="25sp" />
 
 </RelativeLayout>
