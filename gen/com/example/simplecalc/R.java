@@ -26,13 +26,13 @@ public final class R {
     public static final class id {
         public static final int action_settings=0x7f080014;
         public static final int add=0x7f08000c;
-        public static final int clear=0x7f080011;
-        public static final int decimal=0x7f080013;
-        public static final int delete=0x7f080012;
-        public static final int divide=0x7f08000f;
+        public static final int clear=0x7f080010;
+        public static final int decimal=0x7f080011;
+        public static final int delete=0x7f080013;
+        public static final int divide=0x7f08000e;
         public static final int eight=0x7f080009;
-        public static final int equal=0x7f080010;
-        public static final int exp=0x7f08000e;
+        public static final int equal=0x7f08000f;
+        public static final int exp=0x7f080012;
         public static final int five=0x7f080005;
         public static final int four=0x7f080004;
         public static final int multiply=0x7f08000d;

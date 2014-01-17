@@ -67,14 +67,11 @@ public class MainActivity extends Activity {
 		while( stak.getTop() !=' '){		// after loop has exited add operations to end of postF string
 			postF+=stak.pop();
 		}
-		
-		
-		
-		
+	
 		return postF;
 	}
 	
-	protected  boolean isOp(String c){
+	protected  boolean isOp(String c){		// test if the string is an operation -- single strings
 		boolean an=false;
 		
 		if( (c.equals("*")) || (c.equals("/")) || (c.equals("+")) || (c.equals("-")) || (c.equals("^")) ){
@@ -116,8 +113,23 @@ public class MainActivity extends Activity {
 		return check;
 	}
 	
-	protected boolean isOp(char c){
+	protected boolean isSpec(char c){			// test if the character is a special character
 		boolean an=false;
+		
+		if( (c=='*') || (c=='/') || (c=='+') || (c=='-') || (c=='^') || (c=='.') ){
+			an=true;
+		}
+		/*
+		if( an==false)
+			System.out.println(" False2");
+		else
+			System.out.println("TRUE2");
+		*/
+		return an;
+	}
+	
+	protected boolean isOp(char c){			// test if the character is an operation 
+		boolean an=false;	
 		
 		if( (c=='*') || (c=='/') || (c=='+') || (c=='-') || (c=='^') ){
 			an=true;
@@ -354,8 +366,15 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 				String inp, tex;
 				inp=".";
 				tex= screen.getText().toString();
-				tex= tex+inp;
+				if(isSpec(tex.charAt(tex.length()-1))){
+					tex=tex.subSequence(0, tex.length()-1).toString();
+					tex=tex+inp;
+					}
+					else{
+					tex= tex+inp;
+					}
 				screen.setText(tex);
+				
 				
 			}
 		});
@@ -388,12 +407,19 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 						String inp, tex;
 						inp="+";
 						tex= screen.getText().toString();
-						tex= tex+inp;
+						
+						if(isSpec(tex.charAt(tex.length()-1))){
+							tex=tex.subSequence(0, tex.length()-1).toString();
+							tex=tex+inp;
+						}
+						else{
+							tex= tex+inp;
+						}
 						screen.setText(tex);
 						
 					}
 				});
-				
+				//======================CLEAR BUTTON
 				Button clear= (Button) findViewById(R.id.clear);
 				
 				clear.setOnClickListener(new View.OnClickListener() {
@@ -419,7 +445,13 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 						String inp, tex;
 						inp="^";
 						tex= screen.getText().toString();
-						tex= tex+inp;
+						if(isSpec(tex.charAt(tex.length()-1))){
+							tex=tex.subSequence(0, tex.length()-1).toString();
+							tex=tex+inp;
+							}
+							else{
+								tex= tex+inp;
+							}
 						screen.setText(tex);
 					}
 				});
@@ -436,7 +468,13 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 						String inp, tex;
 						inp="/";
 						tex= screen.getText().toString();
-						tex= tex+inp;
+						if(isSpec(tex.charAt(tex.length()-1))){
+							tex=tex.subSequence(0, tex.length()-1).toString();
+							tex=tex+inp;
+							}
+							else{
+							tex= tex+inp;
+							}
 						screen.setText(tex);
 					}
 				});
@@ -452,7 +490,13 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 						String inp, tex;
 						inp="*";
 						tex= screen.getText().toString();
-						tex= tex+inp;
+						if(isSpec(tex.charAt(tex.length()-1))){
+							tex=tex.subSequence(0, tex.length()-1).toString();
+							tex=tex+inp;
+							}
+							else{
+							tex= tex+inp;
+							}
 						screen.setText(tex);
 					}
 				});
@@ -467,7 +511,13 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 				String inp, tex;
 				inp="-";
 				tex= screen.getText().toString();
-				tex= tex+inp;
+				if(isSpec(tex.charAt(tex.length()-1))){
+					tex=tex.subSequence(0, tex.length()-1).toString();
+					tex=tex+inp;
+					}
+					else{
+					tex= tex+inp;
+					}
 				screen.setText(tex);
 			}
 		});
@@ -478,6 +528,8 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 			
 			@Override
 			public void onClick(View v) {
+				
+				
 				// TODO Auto-generated method stub
 				cStack stakk= new cStack(); 		// stack to track operations 
 				double ans=0;
@@ -486,7 +538,7 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 				//	String inf="1+211-24/6";
 				
 				String inf=screen.getText().toString();
-			if(checkString(inf)){	
+			if(checkString(inf)){	 // IF THE STRING HAS NO SYNTAX ERRORS
 				
 				String postF= postFix(inf);						// getting postFix string
 				
@@ -545,7 +597,7 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 				}
 				String s1= new StringBuilder(n).reverse().toString();
 				n=s1;
-			
+			// outer loop
 				
 				while( stakk.getCount() >1){
 					
@@ -556,7 +608,7 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 					//	 n1= new StringBuilder(n).reverse().toString();
 					//	 n2= new StringBuilder(n2).reverse().toString();
 						
-						
+						n2= new StringBuilder(n2).reverse().toString();
 						double tem= calculate(n1,n2,op);
 						String p= String.valueOf(tem);
 						stakk.push(p);
