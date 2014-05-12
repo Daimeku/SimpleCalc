@@ -35,6 +35,34 @@ public class MainActivity extends Activity {
 		
 		return p;
 	}
+	 
+	 protected boolean decimalCheck(String inp){
+		 boolean check=false;
+		 int decimal_count=0;
+		 
+		 for(int x=0;x < inp.length(); x++ ){ 	 // go through each character and reset decimal count at each operator
+			 char c= inp.charAt(x);				 // break when decimal count is over 1	
+			 if(c == '.')
+				 decimal_count++;
+			 else if( isOp(c)){
+				 decimal_count=0;
+			 }
+			 
+			 if(decimal_count > 1)
+				 break;
+		 }
+		 
+		 
+		 //System.out.println("DECIMAL COUNT: "+ decimal_count);
+		 if(decimal_count > 1)
+			 check=false;
+		 else
+			 check=true;
+		 
+		 
+		 return check;
+	 }
+	
 	
 	 protected String postFix(String inf){		// converting from infix string to postfix string and returning it
 		String postF="";
@@ -59,6 +87,17 @@ public class MainActivity extends Activity {
 					
 				}
 			}
+			else if(c=='('){
+				stak.push(c);
+			}
+			else if(c==')'){
+				//char n=' ';
+				while(stak.getTop()!='(' /*&&  (stak.getCount()!=0)*/){
+					postF += stak.pop();
+					
+				}
+				stak.pop();
+			}
 			else{	// if the current character is an operand===============================================================================
 				postF+=c;
 				}
@@ -67,7 +106,7 @@ public class MainActivity extends Activity {
 		while( stak.getTop() !=' '){		// after loop has exited add operations to end of postF string
 			postF+=stak.pop();
 		}
-	
+		System.out.println("LOG-- postfix: "+postF);
 		return postF;
 	}
 	
@@ -89,13 +128,13 @@ public class MainActivity extends Activity {
 	
 	protected boolean checkString(String inp){					// checking the format of the string before calculation
 		boolean check=false;
-		int oc=0;
-		if(inp.equals("")){
+		int oc=0, dc=0;
+		if(inp.equals("")){		// empty screen
 			check=false;
 			return check;
 		}
 		
-		for(int i=0;i<inp.length();i++){
+		for(int i=0;i<inp.length();i++){		// congruent operators
 			
 			if(isOp(inp.charAt(i))){
 				oc++;
@@ -103,9 +142,13 @@ public class MainActivity extends Activity {
 			
 		}
 		
-		if( (!isOp(inp.charAt(inp.length()-1))) && (oc>0) ){
+		
+		
+		if( (!isOp(inp.charAt(inp.length()-1))) && (oc>0) && (decimalCheck(inp) ) ){	// begins with operator
 			check=true;
 		}
+		
+		
 		
 		
 			
@@ -142,16 +185,34 @@ public class MainActivity extends Activity {
 		return an;
 	}
 
+	protected double getDouble(String string){
+		double return_value = 0;
+				
+			if( string.charAt(0) == '-') {
+				string = string.substring(1);
+				return_value = Double.parseDouble(string);
+				return_value = return_value * -1;
+			}
+			else{
+				return_value = Double.parseDouble(string);
+			}
+			
+		
+		return return_value;
+		
+	}
 protected  double calculate(String ss2, String ss1, String sop){		// accepts strings, does calculations and returns double
 	/*
 	String s1= new StringBuilder(ss2).reverse().toString();
 	String s2= new StringBuilder(ss1).reverse().toString();
 	*/
-	
+	System.out.println("LOG-- calculate(): ss2: "+ss2+" ss1: "+ ss1+" sop: "+sop);
 	String s1=ss2;
 	String s2=ss1;
-	double n2= Double.parseDouble(s2);
-	double n1= Double.parseDouble(s1);
+//	double n2= Double.parseDouble(s2);
+//	double n1= Double.parseDouble(s1);
+	double n2 = getDouble(s2);
+	double n1 = getDouble(s1);
 	char op= sop.charAt(0);
 	double ans=0;
 	
@@ -168,7 +229,7 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 			break;
 	}
 	
-	System.out.println(" Ans: "+ans);
+	System.out.println("LOG-- calculate(): Ans: "+ans);
 	return ans;
 	
 }
@@ -407,13 +468,14 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 						String inp, tex;
 						inp="+";
 						tex= screen.getText().toString();
-						
-						if(isSpec(tex.charAt(tex.length()-1))){
-							tex=tex.subSequence(0, tex.length()-1).toString();
-							tex=tex+inp;
-						}
-						else{
-							tex= tex+inp;
+						if( tex.length() >0 ){	//	check for empty screen
+							if(isSpec(tex.charAt(tex.length()-1))){
+								tex=tex.subSequence(0, tex.length()-1).toString();
+								tex=tex+inp;
+							}
+							else{
+								tex= tex+inp;
+							}
 						}
 						screen.setText(tex);
 						
@@ -445,13 +507,15 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 						String inp, tex;
 						inp="^";
 						tex= screen.getText().toString();
-						if(isSpec(tex.charAt(tex.length()-1))){
-							tex=tex.subSequence(0, tex.length()-1).toString();
-							tex=tex+inp;
-							}
-							else{
-								tex= tex+inp;
-							}
+						if( tex.length() >0 ){	//	check for empty screen
+							if(isSpec(tex.charAt(tex.length()-1))){
+								tex=tex.subSequence(0, tex.length()-1).toString();
+								tex=tex+inp;
+								}
+								else{
+									tex= tex+inp;
+								}
+						}
 						screen.setText(tex);
 					}
 				});
@@ -468,13 +532,16 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 						String inp, tex;
 						inp="/";
 						tex= screen.getText().toString();
-						if(isSpec(tex.charAt(tex.length()-1))){
-							tex=tex.subSequence(0, tex.length()-1).toString();
-							tex=tex+inp;
-							}
-							else{
-							tex= tex+inp;
-							}
+						if( tex.length() >0 ){	//	check for empty screen
+							
+							if(isSpec(tex.charAt(tex.length()-1))){
+								tex=tex.subSequence(0, tex.length()-1).toString();
+								tex=tex+inp;
+								}
+								else{
+								tex= tex+inp;
+								}
+						}
 						screen.setText(tex);
 					}
 				});
@@ -490,13 +557,70 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 						String inp, tex;
 						inp="*";
 						tex= screen.getText().toString();
-						if(isSpec(tex.charAt(tex.length()-1))){
+						if( tex.length() >0 ){	//	check for empty screen
+							if(isSpec(tex.charAt(tex.length()-1))){
+								tex=tex.subSequence(0, tex.length()-1).toString();
+								tex=tex+inp;
+								}
+								else{
+								tex= tex+inp;
+								}
+						}
+						screen.setText(tex);
+					}
+				});
+				
+				Button rParenthesis= (Button) findViewById(R.id.rparenth);
+				
+				rParenthesis.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						String inp, tex;
+						inp=")";
+						tex= screen.getText().toString();
+						/* if(isSpec(tex.charAt(tex.length()-1))){
 							tex=tex.subSequence(0, tex.length()-1).toString();
 							tex=tex+inp;
 							}
 							else{
 							tex= tex+inp;
 							}
+							*/
+						tex= tex+inp;
+						screen.setText(tex);
+					}
+				});
+				
+				
+				
+				Button lParenthesis= (Button) findViewById(R.id.lparenth);
+				
+				lParenthesis.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						String inp, tex;
+						 inp="(";
+						tex= screen.getText().toString();
+						
+//						for( int i=0; i < tex.length(); i++){
+//							char c= tex.charAt(i);
+//							
+//							if( c =='(' ){
+//								inp=")";
+//							}
+//														
+//						}
+						if(tex.length() >=1){
+							if( tex.charAt(tex.length()-1) == ')' ){
+								inp=""; 
+							}
+						}
+						
+						tex= tex+inp;
 						screen.setText(tex);
 					}
 				});
@@ -511,16 +635,22 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 				String inp, tex;
 				inp="-";
 				tex= screen.getText().toString();
-				if(isSpec(tex.charAt(tex.length()-1))){
-					tex=tex.subSequence(0, tex.length()-1).toString();
-					tex=tex+inp;
-					}
-					else{
-					tex= tex+inp;
-					}
+				if( tex.length() >0 ){	//	check for empty screen
+					if(isSpec(tex.charAt(tex.length()-1))){
+						tex=tex.subSequence(0, tex.length()-1).toString();
+						tex=tex+inp;
+						}
+						else{
+						tex= tex+inp;
+						}
+				}
 				screen.setText(tex);
 			}
 		});
+		
+		//================================================================================
+		
+		
 		//=================================================EQUALS============
 		Button eq= (Button) findViewById(R.id.equal);
 		
@@ -529,20 +659,18 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 			@Override
 			public void onClick(View v) {
 				
-				
-				// TODO Auto-generated method stub
+								
 				cStack stakk= new cStack(); 		// stack to track operations 
 				double ans=0;
 				String n="";
-			
-				//	String inf="1+211-24/6";
 				
-				String inf=screen.getText().toString();
-			if(checkString(inf)){	 // IF THE STRING HAS NO SYNTAX ERRORS
+				String inf=screen.getText().toString(); // getting the string from the screen and storing it as infix
+				System.out.println("LOG-- equals(): inf: "+inf);
+				if(checkString(inf)){	 // IF THE STRING HAS NO SYNTAX ERRORS
 				
 				String postF= postFix(inf);						// getting postFix string
 				
-				for(int i=postF.length()-1;i>=0;i--){
+				for(int i=postF.length()-1;i>=0;i--){			 
 					char c=postF.charAt(i);
 				//	System.out.println("n: "+n+"    c: "+c+"    top: "+stakk.getTop());
 					
@@ -608,18 +736,19 @@ protected  double calculate(String ss2, String ss1, String sop){		// accepts str
 					//	 n1= new StringBuilder(n).reverse().toString();
 					//	 n2= new StringBuilder(n2).reverse().toString();
 						
-						n2= new StringBuilder(n2).reverse().toString();
+						//n2= new StringBuilder(n2).reverse().toString();
+						System.out.println("LOG-- EQUALS(): n1: "+n1+" n2: "+n2);
 						double tem= calculate(n1,n2,op);
 						String p= String.valueOf(tem);
 						stakk.push(p);
 						
 					}
 					else{
-						String n2=stakk.pop();				// pop twice from stack and calculate using the 2 numbers and the operation
-						String op=stakk.pop();
-						;
-						
-						 n2= new StringBuilder(n2).reverse().toString();
+						String n2=stakk.pop();
+					   n2 = new StringBuilder(n2).reverse().toString();// pop twice from stack and calculate using the 2 numbers and the operation
+						String op=stakk.pop();					
+						System.out.println("LOG-- EQUALS(): n: "+n+" n2: "+n2+" op: "+op);
+					//	 n2= new StringBuilder(n2).reverse().toString();
 						double tem= calculate(n,n2,op);
 						String p= String.valueOf(tem);
 						stakk.push(p);

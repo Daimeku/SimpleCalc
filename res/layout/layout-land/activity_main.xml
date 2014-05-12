@@ -23,7 +23,7 @@
             android:layout_toLeftOf="@+id/add"
             android:background="@drawable/opbg"
             android:text="cls"
-            android:textSize="30sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/add"
@@ -33,7 +33,7 @@
             android:layout_alignLeft="@+id/equal"
             android:background="@drawable/opbg"
             android:text=" + "
-            android:textSize="30sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/subtract"
@@ -43,7 +43,7 @@
             android:layout_toRightOf="@+id/clear"
             android:background="@drawable/opbg"
             android:text="-"
-            android:textSize="30sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/three"
@@ -53,7 +53,7 @@
             android:layout_alignLeft="@+id/clear"
             android:background="@drawable/numbg"
             android:text="3"
-            android:textSize="35sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/decimal"
@@ -64,7 +64,7 @@
             android:layout_toLeftOf="@+id/clear"
             android:background="@drawable/opbg"
             android:text="."
-            android:textSize="30sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/zero"
@@ -74,7 +74,7 @@
             android:layout_toLeftOf="@+id/decimal"
             android:background="@drawable/numbg"
             android:text="0"
-            android:textSize="35sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/two"
@@ -84,7 +84,7 @@
             android:layout_toLeftOf="@+id/clear"
             android:background="@drawable/numbg"
             android:text="2"
-            android:textSize="35sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/one"
@@ -94,7 +94,7 @@
             android:layout_toLeftOf="@+id/decimal"
             android:background="@drawable/numbg"
             android:text="1"
-            android:textSize="35sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/five"
@@ -104,7 +104,7 @@
             android:layout_toLeftOf="@+id/three"
             android:background="@drawable/numbg"
             android:text="5"
-            android:textSize="35sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/four"
@@ -114,7 +114,7 @@
             android:layout_alignLeft="@+id/one"
             android:background="@drawable/numbg"
             android:text="4"
-            android:textSize="35sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/six"
@@ -124,7 +124,7 @@
             android:layout_toRightOf="@+id/two"
             android:background="@drawable/numbg"
             android:text="6"
-            android:textSize="35dp" />
+            android:textSize="30dp" />
 
         <Button
             android:id="@+id/eight"
@@ -134,7 +134,7 @@
             android:layout_toRightOf="@+id/four"
             android:background="@drawable/numbg"
             android:text="8"
-            android:textSize="35sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/nine"
@@ -144,7 +144,7 @@
             android:layout_alignLeft="@+id/six"
             android:background="@drawable/numbg"
             android:text="9"
-            android:textSize="35sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/seven"
@@ -154,7 +154,7 @@
             android:layout_alignLeft="@+id/four"
             android:background="@drawable/numbg"
             android:text="7"
-            android:textSize="35sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/exp"
@@ -164,7 +164,7 @@
             android:layout_toRightOf="@+id/seven"
             android:background="@drawable/opbg"
             android:text="^"
-            android:textSize="30sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/divide"
@@ -174,7 +174,7 @@
             android:layout_toRightOf="@+id/eight"
             android:background="@drawable/opbg"
             android:text="/"
-            android:textSize="30sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/delete"
@@ -185,7 +185,7 @@
             android:layout_alignLeft="@+id/multiply"
             android:background="@drawable/opbg"
             android:text="del"
-            android:textSize="30sp" />
+            android:textSize="20" />
 
         <Button
             android:id="@+id/multiply"
@@ -196,49 +196,45 @@
             android:layout_alignLeft="@+id/subtract"
             android:background="@drawable/opbg"
             android:text="x"
-            android:textSize="30sp" />
+            android:textSize="20" />
 
         <TextView
             android:id="@+id/screen"
-            android:layout_width="300dp"
+            android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_above="@+id/exp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
             android:background="@drawable/screen"
             android:gravity="center"
             android:hint="Screen"
             android:textColor="#000000" />
+
+        <Button
+            android:id="@+id/lparenth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/screen"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:text="("
+            android:textSize="20" />
+
+          <Button
+              android:id="@+id/rparenth"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentTop="true"
+              android:layout_centerHorizontal="true"
+              android:text=")"
+              android:textSize="20" />
 
           <Button
               android:id="@+id/equal"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentBottom="true"
-              android:layout_alignRight="@+id/screen"
+              android:layout_marginLeft="19dp"
+              android:layout_toRightOf="@+id/screen"
               android:background="@drawable/opbg"
               android:text="="
-              android:textSize="30sp" />
-
-          <Button
-              android:id="@+id/rparenth"
-              android:layout_width="30dp"
-              android:layout_height="wrap_content"
-              android:layout_alignTop="@+id/exp"
-              android:layout_toLeftOf="@+id/exp"
-              android:background="@drawable/opbg"
-              android:minWidth="30dip"
-              android:text=")"
-              android:textSize="15sp" />
-
-          <Button
-              android:id="@+id/lparenth"
-              android:layout_width="30dp"
-              android:layout_height="wrap_content"
-              android:layout_alignLeft="@+id/seven"
-              android:layout_below="@+id/screen"
-              android:background="@drawable/opbg"
-              android:text="("
-              android:textSize="15sp" />
+              android:textSize="20" />
 
 </RelativeLayout>
